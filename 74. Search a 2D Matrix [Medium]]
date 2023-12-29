@@ -1,0 +1,70 @@
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+
+        def binarySearch(array, target, condition):
+            res =[]
+            lo = 0
+            hi = len(array)-1
+            while lo <= hi:
+                mid = (lo+hi)//2
+                result = condition(mid)
+
+                if result == 'found':
+                    return mid
+                elif result == 'left':
+                    res.append(mid)
+                    hi = mid - 1
+                elif result == 'right':
+                    res.append(mid)
+                    lo = mid + 1
+            return res
+
+        def matrixFind(array, target): # this function finds the index of the list that may contain the target element
+            def condition(mid):
+                if array[mid] == target:
+                    return 'found'
+                elif array[mid] > target:
+                    return 'left'
+                elif array[mid] < target:
+                    return 'right'
+
+            res = binarySearch(array, target, condition)
+        #     return res
+
+            if str(type(res)) == "<class 'list'>":
+                if array[res[-1]] < target:
+                    return res[-1]
+                elif array[res[-1]] > target:
+                    return res[-1] - 1
+            else:
+                return res
+
+        def binarySearchList(array, target, condition):
+            lo = 0
+            hi = len(array) - 1
+            while lo <= hi:
+                mid = (lo+hi)//2
+                result = condition(mid)
+                if result == 'found':
+                    return True
+                elif result == 'left':
+                    hi = mid - 1
+                elif result == 'right':
+                    lo = mid + 1
+            return False
+
+
+        matrixFirstElement = [i[0] for i in matrix]
+        targetListIndex = matrixFind(matrixFirstElement, target)
+        targetList = matrix[targetListIndex]
+        array = targetList
+
+        def conditionSecond(mid):
+            if array[mid] == target:
+                return 'found'
+            elif array[mid] > target:
+                return 'left'
+            elif array[mid] < target:
+                return 'right'
+        return binarySearchList(targetList, target, conditionSecond)        
+        
