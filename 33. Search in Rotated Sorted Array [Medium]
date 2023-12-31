@@ -1,0 +1,56 @@
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+
+        # helper function 1
+        def minRotations(array): # minimum rotation is also same as rotation point
+            lo = 0
+            hi = len(array)-1
+
+            while lo <= hi:
+                mid = (lo+hi)//2
+                if mid > 0 and array[mid-1] > array[mid]:
+                        return mid
+                elif array[mid] < array[hi]:
+                        hi = mid - 1
+                else:
+                        lo = mid + 1
+            return 0
+
+        # helper function 2
+        def binarySearch(array, target):
+            lo = 0
+            hi = len(array)-1
+
+            while lo <= hi:
+                mid = (lo+hi)//2
+
+                if array[mid] == target:
+                    return mid
+                elif array[mid] > target:
+                    hi = mid-1
+                elif array[mid] < target:
+                    lo = mid+1
+            return -1
+
+        # search function
+        rotationPoint = minRotations(nums)
+#         print('rotationPoint', rotationPoint)
+        firstArray = nums[0:rotationPoint]
+#         print('firstArray', firstArray)
+        lastArray =nums[rotationPoint:]
+#         print('lastArray', lastArray)
+        array = nums
+        
+        if rotationPoint == 0:
+            return binarySearch(array, target)
+        
+        elif target >= firstArray[0] and target <= firstArray[-1]:
+#             print('first condition')
+            return binarySearch(firstArray, target)
+        
+        else:
+#             print('last condition')
+            index = binarySearch(lastArray, target)
+            if index == -1:
+                return index
+            return len(firstArray) + index
