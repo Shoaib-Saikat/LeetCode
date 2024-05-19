@@ -1,0 +1,43 @@
+class Solution:
+    def productExceptSelf(self, nums):        
+        prefix_list = []
+        postfix_list = []
+        idx = 0
+        while idx <= len(nums)-1:
+            num = nums[idx]
+            backward_num = nums[(-idx)-1]
+
+            if idx == 0:
+                prefix_list.append(num)
+                postfix_list.append(backward_num)
+            else:
+                prefix = num * prefix_list[idx-1]
+                prefix_list.append(prefix)
+
+                postfix = backward_num * postfix_list[idx-1]
+
+                postfix_list.insert(idx,postfix)
+
+            idx+=1
+
+        postfix_list = list(reversed(postfix_list))
+
+        res_lst = []
+
+        for i in range(len(prefix_list)):
+            if i == 0:
+                pre = 1
+                post = postfix_list[i+1]
+
+            elif i == len(prefix_list)-1:
+                pre = prefix_list[i-1]
+                post = 1
+
+            else:
+                pre = prefix_list[i-1]
+                post = postfix_list[i+1]
+
+            res_num = pre*post
+            res_lst.append(res_num)
+
+        return res_lst
