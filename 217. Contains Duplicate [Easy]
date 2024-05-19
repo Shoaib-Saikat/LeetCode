@@ -1,0 +1,10 @@
+class Solution:
+    def containsDuplicate(self, array):
+        hastset = set()
+        
+        for i in array:
+            if i in hastset:
+                return True
+            hastset.add(i)
+        
+        return False
