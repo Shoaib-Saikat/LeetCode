@@ -1,0 +1,14 @@
+class Solution:
+    def groupAnagrams(self, strings):
+        anagramDict = dict()
+        
+        for string in strings:
+            lst_of_str_char = sorted(string)
+            sorted_string = ''.join(lst_of_str_char)
+            
+            if sorted_string not in anagramDict:
+                anagramDict[sorted_string] = [string]      
+            else:
+                anagramDict[sorted_string].append(string)
+        
+        return [anagramDict[lst] for lst in anagramDict]
