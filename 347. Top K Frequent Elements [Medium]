@@ -1,0 +1,16 @@
+class Solution:
+    def topKFrequent(self, nums, k):
+        frequency_dict = dict()
+        
+        for num in nums:
+            frequency_dict[num] = frequency_dict.get(num, 0) + 1
+        
+        tupl_lst_from_frequency_dict = [i for i in frequency_dict.items()]
+        
+        sorted_tupl_lst = sorted(tupl_lst_from_frequency_dict, key= lambda x: x[1], reverse=True)
+        
+        sorted_num_lst = [k for k,v in sorted_tupl_lst]
+        
+        top_k_frequent = sorted_num_lst[:k]
+        
+        return top_k_frequent
